@@ -13,13 +13,26 @@ body
   position: relative
   width: $cardWidth * 5
   height: $cardHeight
-  margin-bottom: 80px
+
+#enemyStats, #playerStats
+  height: 80px
+  color: #ddd
+  font-weight: bold
+  font-size: 22px
+  font-family: sans-serif
+  position: relative
+  .hp
+    left: 28px
+    top: 0px
+    position: absolute
+
+  .currentHp, .maxHp, .divider, .hpLabel
+    float: left
 
 #playerDeck
   position: relative
   width: $cardWidth * 5
   height: $cardHeight
-  margin-top: 80px
   .card
     top: 0px
   .y0

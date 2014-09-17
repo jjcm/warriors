@@ -3,5 +3,6 @@ function unit(hp, speed, exp, weapon){
   this.speed = speed;
   this.exp = exp;
   this.weapon = weapon;
+  this.currentHp = hp;
 }
 

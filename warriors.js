@@ -495,6 +495,40 @@ var elements = {
 
     drawEnemyStats : function(){
 
+        hp = document.createElement('div');
+        hp.innerHTML = 
+            "<div class='hp'>"
+            + "<div class='hpLabel'>HP: </div>" 
+            + "<div class='currentHp'>" + enemy.currentHp + "</div>"
+            + "<div class='divider'>/</div>" 
+            + "<div class='maxHp'>" + enemy.hp + "</div>"
+            + "</div>";
+
+        weapon = document.createElement('div');
+        weapon.innerHTML = 
+            "<div class='weapon'>"
+            + "<div class='weaponLabel'>weapon: </div>" 
+            + "<div class='weaponName'>" + enemy.weapon.name + "</div>"
+            + "<div class='weaponQ2'>" + enemy.weapon.q2 + "</div>"
+            + "<div class='weaponQ3'>" + enemy.weapon.q2 + "</div>"
+            + "<div class='weaponQ4'>" + enemy.weapon.q2 + "</div>"
+            + "<div class='weaponQ5'>" + enemy.weapon.q2 + "</div>"
+            + "<div class='weaponW2'>" + enemy.weapon.w2 + "</div>"
+            + "<div class='weaponW3'>" + enemy.weapon.w3 + "</div>"
+            + "<div class='weaponW4'>" + enemy.weapon.w4 + "</div>"
+            + "<div class='weaponW5'>" + enemy.weapon.w5 + "</div>"
+            + "<div class='weaponE2'>" + enemy.weapon.e2 + "</div>"
+            + "<div class='weaponE3'>" + enemy.weapon.e3 + "</div>"
+            + "<div class='weaponE4'>" + enemy.weapon.e4 + "</div>"
+            + "<div class='weaponE5'>" + enemy.weapon.e5 + "</div>"
+            + "<div class='weaponQ1'>/</div>" 
+            + "<div class='maxHp'>" + enemy.hp + "</div>"
+            + "</div>";
+
+
+
+        enemyStats.appendChild(hp);
+        enemyStats.appendChild(weapon);
     },
 
     init : function(){
