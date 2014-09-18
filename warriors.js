@@ -509,20 +509,18 @@ var elements = {
             "<div class='weapon'>"
             + "<div class='weaponLabel'>weapon: </div>" 
             + "<div class='weaponName'>" + enemy.weapon.name + "</div>"
-            + "<div class='weaponQ2'>" + enemy.weapon.q2 + "</div>"
-            + "<div class='weaponQ3'>" + enemy.weapon.q2 + "</div>"
-            + "<div class='weaponQ4'>" + enemy.weapon.q2 + "</div>"
-            + "<div class='weaponQ5'>" + enemy.weapon.q2 + "</div>"
-            + "<div class='weaponW2'>" + enemy.weapon.w2 + "</div>"
-            + "<div class='weaponW3'>" + enemy.weapon.w3 + "</div>"
-            + "<div class='weaponW4'>" + enemy.weapon.w4 + "</div>"
-            + "<div class='weaponW5'>" + enemy.weapon.w5 + "</div>"
-            + "<div class='weaponE2'>" + enemy.weapon.e2 + "</div>"
-            + "<div class='weaponE3'>" + enemy.weapon.e3 + "</div>"
-            + "<div class='weaponE4'>" + enemy.weapon.e4 + "</div>"
-            + "<div class='weaponE5'>" + enemy.weapon.e5 + "</div>"
-            + "<div class='weaponQ1'>/</div>" 
-            + "<div class='maxHp'>" + enemy.hp + "</div>"
+            + "<div class='weaponQ2 weaponStat'>" + ( enemy.weapon.q2 == null ? "" : enemy.weapon.q2 ) + "</div>"
+            + "<div class='weaponQ3 weaponStat'>" + ( enemy.weapon.q3 == null ? "" : enemy.weapon.q3 ) + "</div>"
+            + "<div class='weaponQ4 weaponStat'>" + ( enemy.weapon.q4 == null ? "" : enemy.weapon.q4 ) + "</div>"
+            + "<div class='weaponQ5 weaponStat'>" + ( enemy.weapon.q5 == null ? "" : enemy.weapon.q5 ) + "</div>"
+            + "<div class='weaponW2 weaponStat'>" + ( enemy.weapon.w2 == null ? "" : enemy.weapon.w2 ) + "</div>"
+            + "<div class='weaponW3 weaponStat'>" + ( enemy.weapon.w3 == null ? "" : enemy.weapon.w3 ) + "</div>"
+            + "<div class='weaponW4 weaponStat'>" + ( enemy.weapon.w4 == null ? "" : enemy.weapon.w4 ) + "</div>"
+            + "<div class='weaponW5 weaponStat'>" + ( enemy.weapon.w5 == null ? "" : enemy.weapon.w5 ) + "</div>"
+            + "<div class='weaponE2 weaponStat'>" + ( enemy.weapon.e2 == null ? "" : enemy.weapon.e2 ) + "</div>"
+            + "<div class='weaponE3 weaponStat'>" + ( enemy.weapon.e3 == null ? "" : enemy.weapon.e3 ) + "</div>"
+            + "<div class='weaponE4 weaponStat'>" + ( enemy.weapon.e4 == null ? "" : enemy.weapon.e4 ) + "</div>"
+            + "<div class='weaponE5 weaponStat'>" + ( enemy.weapon.e5 == null ? "" : enemy.weapon.e5 ) + "</div>"
             + "</div>";
 
 
@@ -555,6 +553,7 @@ var elements = {
 
         elements.dealPlayerCards();
         elements.dealEnemyCards();
+        elements.drawEnemyStats();
 
         enemyDeck.addEventListener("click", function(e){
             if(turn == "enemy"){
