@@ -493,41 +493,33 @@ var elements = {
         card.dom.addEventListener(animationEndEvent, function(){callback()});
     },
 
-    drawEnemyStats : function(){
+    drawPlayerStats : function(){
+        playerName = document.createElement('div');
+        playerName.innerHTML = "<div class='name'>" + player.name + "</div>";
 
         hp = document.createElement('div');
-        hp.innerHTML = 
-            "<div class='hp'>"
-            + "<div class='hpLabel'>HP: </div>" 
-            + "<div class='currentHp'>" + enemy.currentHp + "</div>"
-            + "<div class='divider'>/</div>" 
-            + "<div class='maxHp'>" + enemy.hp + "</div>"
-            + "</div>";
+        hp.innerHTML = units.getHpHTML(player);
 
         weapon = document.createElement('div');
-        weapon.innerHTML = 
-            "<div class='weapon'>"
-            + "<div class='weaponLabel'>weapon: </div>" 
-            + "<div class='weaponName'>" + enemy.weapon.name + "</div>"
-            + "<div class='weaponQ2 weaponStat'>" + ( enemy.weapon.q2 == null ? "" : enemy.weapon.q2 ) + "</div>"
-            + "<div class='weaponQ3 weaponStat'>" + ( enemy.weapon.q3 == null ? "" : enemy.weapon.q3 ) + "</div>"
-            + "<div class='weaponQ4 weaponStat'>" + ( enemy.weapon.q4 == null ? "" : enemy.weapon.q4 ) + "</div>"
-            + "<div class='weaponQ5 weaponStat'>" + ( enemy.weapon.q5 == null ? "" : enemy.weapon.q5 ) + "</div>"
-            + "<div class='weaponW2 weaponStat'>" + ( enemy.weapon.w2 == null ? "" : enemy.weapon.w2 ) + "</div>"
-            + "<div class='weaponW3 weaponStat'>" + ( enemy.weapon.w3 == null ? "" : enemy.weapon.w3 ) + "</div>"
-            + "<div class='weaponW4 weaponStat'>" + ( enemy.weapon.w4 == null ? "" : enemy.weapon.w4 ) + "</div>"
-            + "<div class='weaponW5 weaponStat'>" + ( enemy.weapon.w5 == null ? "" : enemy.weapon.w5 ) + "</div>"
-            + "<div class='weaponE2 weaponStat'>" + ( enemy.weapon.e2 == null ? "" : enemy.weapon.e2 ) + "</div>"
-            + "<div class='weaponE3 weaponStat'>" + ( enemy.weapon.e3 == null ? "" : enemy.weapon.e3 ) + "</div>"
-            + "<div class='weaponE4 weaponStat'>" + ( enemy.weapon.e4 == null ? "" : enemy.weapon.e4 ) + "</div>"
-            + "<div class='weaponE5 weaponStat'>" + ( enemy.weapon.e5 == null ? "" : enemy.weapon.e5 ) + "</div>"
-            + "</div>";
+        weapon.innerHTML = weapons.getWeaponTableHTML(player.weapon);
 
-
-
-        enemyStats.appendChild(hp);
-        enemyStats.appendChild(weapon);
+        playerStats.innerHTML = playerName.innerHTML + hp.innerHTML + weapon.innerHTML;
     },
+
+    drawEnemyStats : function(){
+        enemyStats.innerHTML = "";
+        enemyName = document.createElement('div');
+        enemyName.innerHTML = "<div class='name'>" + enemy.name + "</div>";
+
+        hp = document.createElement('div');
+        hp.innerHTML = units.getHpHTML(enemy);
+
+        weapon = document.createElement('div');
+        weapon.innerHTML = weapons.getWeaponTableHTML(enemy.weapon);
+
+        enemyStats.innerHTML = enemyName.innerHTML + hp.innerHTML + weapon.innerHTML;
+    },
+
 
     init : function(){
         turn = "player";
@@ -554,6 +546,7 @@ var elements = {
         elements.dealPlayerCards();
         elements.dealEnemyCards();
         elements.drawEnemyStats();
+        elements.drawPlayerStats();
 
         enemyDeck.addEventListener("click", function(e){
             if(turn == "enemy"){
@@ -572,8 +565,8 @@ var player;
 var enemy;
 //on ready
 document.addEventListener( "DOMContentLoaded", function(){
-    player = new unit(10, 10, 0, weapons.shortSword);
-    enemy = new unit(10, 1, 0, weapons.longSword);
+    player = new unit("Player", null, null, 10, 10, 0, weapons.shortSword);
+    enemy = new unit("Dickbutt", null, null, 10, 1, 0, weapons.longSword);
     elements.init();
 
 });

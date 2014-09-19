@@ -21,6 +21,25 @@ function weapon(name, icon, art, price, speed, q2, q3, q4, q5, w2, w3, w4, w5, w
 }
 
 var weapons = {
+  getWeaponTableHTML : function(weapon) {
+    return "<div class='weapon'>"
+      + "<table><tr>"
+      + "<td class='weaponQ2 weaponStat'>" + ( weapon.q2 == null ? "" : weapon.q2 ) + "</td>"
+      + "<td class='weaponQ3 weaponStat'>" + ( weapon.q3 == null ? "" : weapon.q3 ) + "</td>"
+      + "<td class='weaponQ4 weaponStat'>" + ( weapon.q4 == null ? "" : weapon.q4 ) + "</td>"
+      + "<td class='weaponQ5 weaponStat'>" + ( weapon.q5 == null ? "" : weapon.q5 ) + "</td>"
+      + "<td class='weaponW2 weaponStat'>" + ( weapon.w2 == null ? "" : weapon.w2 ) + "</td>"
+      + "<td class='weaponW3 weaponStat'>" + ( weapon.w3 == null ? "" : weapon.w3 ) + "</td>"
+      + "<td class='weaponW4 weaponStat'>" + ( weapon.w4 == null ? "" : weapon.w4 ) + "</td>"
+      + "<td class='weaponW5 weaponStat'>" + ( weapon.w5 == null ? "" : weapon.w5 ) + "</td>"
+      + "<td class='weaponE2 weaponStat'>" + ( weapon.e2 == null ? "" : weapon.e2 ) + "</td>"
+      + "<td class='weaponE3 weaponStat'>" + ( weapon.e3 == null ? "" : weapon.e3 ) + "</td>"
+      + "<td class='weaponE4 weaponStat'>" + ( weapon.e4 == null ? "" : weapon.e4 ) + "</td>"
+      + "<td class='weaponE5 weaponStat'>" + ( weapon.e5 == null ? "" : weapon.e5 ) + "</td>"
+      + "</tr></table>"
+      + "</div>";
+  }, 
+
   crit : function(multiplier, damage) {
     // insert code for crit animation here
 
