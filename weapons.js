@@ -76,10 +76,10 @@ var weapons = {
       null, 
       null, 
       //e's
-      null, 
-      null, 
-      null, 
-      null, 
+      1, 
+      1, 
+      1, 
+      1, 
       2 
   ),
     
@@ -101,9 +101,34 @@ var weapons = {
       null, 
       null, 
       //e's
+      1, 
+      1, 
+      1, 
+      1.5, 
+      2 
+  ),
+    
+  potato : new weapon(
+      "Potato",
+      null,
+      null,
+      500, 
+      0,
+      //q's
+      20, 
+      38, 
+      89, 
+      500, 
+      //w's
       null, 
       null, 
       null, 
+      null, 
+      null, 
+      //e's
+      1, 
+      2, 
+      5, 
       1.5, 
       2 
   ),

@@ -186,7 +186,23 @@ var elements = {
             console.log("Exort Score: " + this.scoreExort(exortMatches));
         }
 
-        this.drawAttackAnimation(this.scoreQuas(quasMatches), this.scoreWex(wexMatches), this.scoreExort(exortMatches));
+        
+        unit = turn == "player" ? player : enemy;
+
+        quasDamage = unit.weapon["q" + this.scoreQuas(quasMatches)];
+        wexDamage = unit.weapon["w" + this.scoreWex(wexMatches)];
+        exortDamage = unit.weapon["e" + this.scoreExort(exortMatches)];
+
+        // the rare instance that there's only 1 q match, the player "drops his sword"
+        if (this.scoreQuas(quasMatches) == 1)
+            quasDamage = 1;
+
+        damagedUnit = turn == "player" ? enemy : player;
+        damagedUnit.currentHp = damagedUnit.currentHp - ((quasDamage * exortDamage) + wexDamage);
+
+        if(damagedUnit.currentHp < 0) damagedUnit.currentHp = 0;
+
+        this.drawAttackAnimation(quasDamage, wexDamage, exortDamage);
     },
 
     drawAttackAnimation : function(q, w, e){
@@ -202,7 +218,9 @@ var elements = {
 
 
         unit = turn == "player" ? player : enemy;
-        attackWindow.innerHTML = unit.weapon.name + " hit for " + unit.weapon["q" + q] + " damage!!!";
+        attackWindow.innerHTML = unit.weapon.name + " hit for " + q * e + " damage!!!";
+        elements.drawPlayerStats();
+        elements.drawEnemyStats();
     },
 
     scoreQuas : function(quas){
