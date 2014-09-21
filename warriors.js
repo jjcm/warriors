@@ -256,6 +256,156 @@ var elements = {
         return score;
     },
 
+    //TODO generate AI move 
+    generateComputerMoveList : function(){
+        bestMoves = [];
+        for(i = 0; i < 5; i++){
+            elements.board[x][i]
+        }
+    },
+
+    scoreTheoreticalPlay : function(board, x1, y1, x2, y2){
+        quasMatches = new Array(3);
+        i = 3; while(i--) quasMatches[i] = 0;
+
+        wexMatches = new Array(5);
+        i = 5; while(i--) wexMatches[i] = 0;
+
+        exortMatches = new Array(7);
+        i = 7; while(i--) exortMatches[i] = 0;
+        //vertical
+        if(x1 == x2){
+            console.log("vertical play");
+            for(y = 0; y < 5; y++){
+                quas = this.board[x1][y].quas - 1;
+                wex = this.board[x1][y].wex - 1;
+                exort = this.board[x1][y].exort - 1;
+                quasMatches[quas] = quasMatches[quas] + 1;
+                wexMatches[wex] = wexMatches[wex] + 1;
+                exortMatches[exort] = exortMatches[exort] + 1;
+            }
+            console.log(quasMatches);
+            console.log(wexMatches);
+            console.log(exortMatches);
+
+            boardHighlight.className = "vertical x" + (parseInt(x1) + 1);
+            setTimeout(function(){
+                boardHighlight.classList.add("fadeOut");
+            }, 2000);
+            setTimeout(function(){
+                boardHighlight.className = "";
+            }, 3500);
+
+
+            //quas
+            console.log("Quas Score: " + this.scoreQuas(quasMatches));
+            console.log("Wex Score: " + this.scoreWex(wexMatches));
+            console.log("Exort Score: " + this.scoreExort(exortMatches));
+        }
+        //horizontal
+        else if(y1 == y2){
+            console.log("horizontal play");
+            for(x = 0; x < 5; x++){
+                quas = this.board[x][y1].quas - 1;
+                wex = this.board[x][y1].wex - 1;
+                exort = this.board[x][y1].exort - 1;
+                quasMatches[quas] = quasMatches[quas] + 1;
+                wexMatches[wex] = wexMatches[wex] + 1;
+                exortMatches[exort] = exortMatches[exort] + 1;
+            }
+            console.log(quasMatches);
+            console.log(wexMatches);
+            console.log(exortMatches);
+
+            boardHighlight.className = "horizontal y" + (parseInt(y1) + 1);
+            setTimeout(function(){
+                boardHighlight.classList.add("fadeOut");
+            }, 2000);
+            setTimeout(function(){
+                boardHighlight.className = "";
+            }, 3500);
+
+            //quas
+            console.log("Quas Score: " + this.scoreQuas(quasMatches));
+            console.log("Wex Score: " + this.scoreWex(wexMatches));
+            console.log("Exort Score: " + this.scoreExort(exortMatches));
+        }
+        //diagonal with a card in the top left corner
+        else if(x1 == y1){
+            console.log("diagonal (top left) play");
+            for(xy = 0; xy < 5; xy++){
+                quas = this.board[xy][xy].quas - 1;
+                wex = this.board[xy][xy].wex - 1;
+                exort = this.board[xy][xy].exort - 1;
+                quasMatches[quas] = quasMatches[quas] + 1;
+                wexMatches[wex] = wexMatches[wex] + 1;
+                exortMatches[exort] = exortMatches[exort] + 1;
+            }
+            console.log(quasMatches);
+            console.log(wexMatches);
+            console.log(exortMatches);
+
+            boardHighlight.className = "diagonalTL";
+            setTimeout(function(){
+                boardHighlight.classList.add("fadeOut");
+            }, 2000);
+            setTimeout(function(){
+                boardHighlight.className = "";
+            }, 3500);
+
+            //quas
+            console.log("Quas Score: " + this.scoreQuas(quasMatches));
+            console.log("Wex Score: " + this.scoreWex(wexMatches));
+            console.log("Exort Score: " + this.scoreExort(exortMatches));
+        }
+        //diagonal with a card in the bottom left corner
+        else if (x1 == y2){
+            console.log("diagonal (top right) play");
+            for(xy = 0; xy < 5; xy++){
+                quas = this.board[xy][4 - xy].quas - 1;
+                wex = this.board[xy][4 - xy].wex - 1;
+                exort = this.board[xy][4 - xy].exort - 1;
+                quasMatches[quas] = quasMatches[quas] + 1;
+                wexMatches[wex] = wexMatches[wex] + 1;
+                exortMatches[exort] = exortMatches[exort] + 1;
+            }
+            console.log(quasMatches);
+            console.log(wexMatches);
+            console.log(exortMatches);
+
+            boardHighlight.className = "diagonalTR";
+            setTimeout(function(){
+                boardHighlight.classList.add("fadeOut");
+            }, 2000);
+            setTimeout(function(){
+                boardHighlight.className = "";
+            }, 3500);
+
+            //quas
+            console.log("Quas Score: " + this.scoreQuas(quasMatches));
+            console.log("Wex Score: " + this.scoreWex(wexMatches));
+            console.log("Exort Score: " + this.scoreExort(exortMatches));
+        }
+
+        
+        unit = turn == "player" ? player : enemy;
+
+        quasDamage = unit.weapon["q" + this.scoreQuas(quasMatches)];
+        wexDamage = unit.weapon["w" + this.scoreWex(wexMatches)];
+        exortDamage = unit.weapon["e" + this.scoreExort(exortMatches)];
+
+        // the rare instance that there's only 1 q match, the player "drops his sword"
+        if (this.scoreQuas(quasMatches) == 1)
+            quasDamage = 1;
+
+        damagedUnit = turn == "player" ? enemy : player;
+        damagedUnit.currentHp = damagedUnit.currentHp - ((quasDamage * exortDamage) + wexDamage);
+
+        if(damagedUnit.currentHp < 0) damagedUnit.currentHp = 0;
+
+        this.drawAttackAnimation(quasDamage, wexDamage, exortDamage);
+    },
+
     drawBoard : function(){
         board.innerHTML = "";
         for(x = 0; x < 5; x++){
