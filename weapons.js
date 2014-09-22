@@ -4,20 +4,24 @@ function weapon(name, icon, art, price, speed, q2, q3, q4, q5, w2, w3, w4, w5, w
   this.art = art;
   this.price = price;
   this.speed = speed;
+  this.q1 = 1;
   this.q2 = q2;
   this.q3 = q3;
   this.q4 = q4;
   this.q5 = q5;
+  this.w1 = 0;
   this.w2 = w2;
   this.w3 = w3;
   this.w4 = w4;
   this.w5 = w5;
   this.ws = ws;
+  this.e1 = 1;
   this.e2 = e2;
   this.e3 = e3;
   this.e4 = e4;
   this.e5 = e5;
   this.es = es;
+  
 }
 
 var weapons = {
@@ -70,11 +74,11 @@ var weapons = {
       3, 
       4, 
       //w's
-      null, 
-      null, 
-      null, 
-      null, 
-      null, 
+      0, 
+      0, 
+      0, 
+      0, 
+      5, 
       //e's
       1, 
       1, 
@@ -95,11 +99,11 @@ var weapons = {
       3, 
       5, 
       //w's
-      null, 
-      null, 
-      null, 
-      null, 
-      null, 
+      0, 
+      0, 
+      0, 
+      0, 
+      5, 
       //e's
       1, 
       1, 
@@ -120,11 +124,11 @@ var weapons = {
       89, 
       500, 
       //w's
-      null, 
-      null, 
-      null, 
-      null, 
-      null, 
+      0, 
+      0, 
+      0, 
+      0, 
+      0, 
       //e's
       1, 
       2, 

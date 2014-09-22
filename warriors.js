@@ -236,7 +236,7 @@ var elements = {
             score = Math.max(wex[i], score);
         }
         if(score == 1)
-            score = "STRAIGHT";
+            score = "s";
         return score;
     },
 
@@ -251,7 +251,7 @@ var elements = {
                 (exort[0] == 0 && exort[6] == 0) ||
                 (exort[5] == 0 && exort[6] == 0)
             )
-            score = "STRAIGHT";
+            score = "s";
         }
         return score;
     },
@@ -259,9 +259,40 @@ var elements = {
     //TODO generate AI move 
     generateComputerMoveList : function(){
         bestMoves = [];
-        for(i = 0; i < 5; i++){
-            elements.board[x][i]
+        tmpBoard = elements.board;
+        //walk along the left edge
+        for(var i = 1; i < 4; i++){
+            //for each combination of cards...
+            for(j = 0; j < 4; j++){
+                for(k = j + 1; k < 5; k++){
+                    tmpBoard[0][i] = elements.playerDeck[j];
+                    tmpBoard[4][i] = elements.playerDeck[k];
+                    bestMoves.push({
+                        score : elements.scoreTheoreticalPlay(tmpBoard, 0, i, 4, i),
+                        card1 : j,
+                        card2 : k,
+                        x1 : 0,
+                        y1 : i,
+                        x2 : 4,
+                        y2 : i
+                    });
+                }
+            }
+            //tmpBoard[x][i]
+
         }
+
+        console.log(bestMoves);
+        bestMoves.sort(elements.compareMoves);
+        console.log(bestMoves);
+    },
+
+    compareMoves : function(a, b){
+        if(a.score < b.score)
+            return -1;
+        if(a.score > b.score)
+            return 1;
+        return 0;
     },
 
     scoreTheoreticalPlay : function(board, x1, y1, x2, y2){
@@ -277,133 +308,89 @@ var elements = {
         if(x1 == x2){
             console.log("vertical play");
             for(y = 0; y < 5; y++){
-                quas = this.board[x1][y].quas - 1;
-                wex = this.board[x1][y].wex - 1;
-                exort = this.board[x1][y].exort - 1;
+                quas = board[x1][y].quas - 1;
+                wex = board[x1][y].wex - 1;
+                exort = board[x1][y].exort - 1;
                 quasMatches[quas] = quasMatches[quas] + 1;
                 wexMatches[wex] = wexMatches[wex] + 1;
                 exortMatches[exort] = exortMatches[exort] + 1;
             }
-            console.log(quasMatches);
-            console.log(wexMatches);
-            console.log(exortMatches);
 
-            boardHighlight.className = "vertical x" + (parseInt(x1) + 1);
-            setTimeout(function(){
-                boardHighlight.classList.add("fadeOut");
-            }, 2000);
-            setTimeout(function(){
-                boardHighlight.className = "";
-            }, 3500);
-
-
-            //quas
+            /*
             console.log("Quas Score: " + this.scoreQuas(quasMatches));
             console.log("Wex Score: " + this.scoreWex(wexMatches));
             console.log("Exort Score: " + this.scoreExort(exortMatches));
+            */
         }
         //horizontal
         else if(y1 == y2){
             console.log("horizontal play");
             for(x = 0; x < 5; x++){
-                quas = this.board[x][y1].quas - 1;
-                wex = this.board[x][y1].wex - 1;
-                exort = this.board[x][y1].exort - 1;
+                quas = board[x][y1].quas - 1;
+                wex = board[x][y1].wex - 1;
+                exort = board[x][y1].exort - 1;
                 quasMatches[quas] = quasMatches[quas] + 1;
                 wexMatches[wex] = wexMatches[wex] + 1;
                 exortMatches[exort] = exortMatches[exort] + 1;
             }
-            console.log(quasMatches);
-            console.log(wexMatches);
-            console.log(exortMatches);
 
-            boardHighlight.className = "horizontal y" + (parseInt(y1) + 1);
-            setTimeout(function(){
-                boardHighlight.classList.add("fadeOut");
-            }, 2000);
-            setTimeout(function(){
-                boardHighlight.className = "";
-            }, 3500);
-
-            //quas
+            /*
             console.log("Quas Score: " + this.scoreQuas(quasMatches));
             console.log("Wex Score: " + this.scoreWex(wexMatches));
             console.log("Exort Score: " + this.scoreExort(exortMatches));
+            */
         }
         //diagonal with a card in the top left corner
         else if(x1 == y1){
             console.log("diagonal (top left) play");
             for(xy = 0; xy < 5; xy++){
-                quas = this.board[xy][xy].quas - 1;
-                wex = this.board[xy][xy].wex - 1;
-                exort = this.board[xy][xy].exort - 1;
+                quas = board[xy][xy].quas - 1;
+                wex = board[xy][xy].wex - 1;
+                exort = board[xy][xy].exort - 1;
                 quasMatches[quas] = quasMatches[quas] + 1;
                 wexMatches[wex] = wexMatches[wex] + 1;
                 exortMatches[exort] = exortMatches[exort] + 1;
             }
-            console.log(quasMatches);
-            console.log(wexMatches);
-            console.log(exortMatches);
 
-            boardHighlight.className = "diagonalTL";
-            setTimeout(function(){
-                boardHighlight.classList.add("fadeOut");
-            }, 2000);
-            setTimeout(function(){
-                boardHighlight.className = "";
-            }, 3500);
-
-            //quas
+            /*
             console.log("Quas Score: " + this.scoreQuas(quasMatches));
             console.log("Wex Score: " + this.scoreWex(wexMatches));
             console.log("Exort Score: " + this.scoreExort(exortMatches));
+            */
         }
         //diagonal with a card in the bottom left corner
         else if (x1 == y2){
             console.log("diagonal (top right) play");
             for(xy = 0; xy < 5; xy++){
-                quas = this.board[xy][4 - xy].quas - 1;
-                wex = this.board[xy][4 - xy].wex - 1;
-                exort = this.board[xy][4 - xy].exort - 1;
+                quas = board[xy][4 - xy].quas - 1;
+                wex = board[xy][4 - xy].wex - 1;
+                exort = board[xy][4 - xy].exort - 1;
                 quasMatches[quas] = quasMatches[quas] + 1;
                 wexMatches[wex] = wexMatches[wex] + 1;
                 exortMatches[exort] = exortMatches[exort] + 1;
             }
-            console.log(quasMatches);
-            console.log(wexMatches);
-            console.log(exortMatches);
 
-            boardHighlight.className = "diagonalTR";
-            setTimeout(function(){
-                boardHighlight.classList.add("fadeOut");
-            }, 2000);
-            setTimeout(function(){
-                boardHighlight.className = "";
-            }, 3500);
-
-            //quas
+            /*
             console.log("Quas Score: " + this.scoreQuas(quasMatches));
             console.log("Wex Score: " + this.scoreWex(wexMatches));
             console.log("Exort Score: " + this.scoreExort(exortMatches));
+            */
         }
 
-        
-        unit = turn == "player" ? player : enemy;
+        quasDamage = enemy.weapon["q" + this.scoreQuas(quasMatches)];
+        wexDamage = enemy.weapon["w" + this.scoreWex(wexMatches)];
+        exortDamage = enemy.weapon["e" + this.scoreExort(exortMatches)];
 
-        quasDamage = unit.weapon["q" + this.scoreQuas(quasMatches)];
-        wexDamage = unit.weapon["w" + this.scoreWex(wexMatches)];
-        exortDamage = unit.weapon["e" + this.scoreExort(exortMatches)];
-
+        /*
+        console.log("Quas Damage: " + quasDamage);
+        console.log("Wex Damage: " + wexDamage);
+        console.log("Exort Damage: " + exortDamage);
+        */
         // the rare instance that there's only 1 q match, the player "drops his sword"
         if (this.scoreQuas(quasMatches) == 1)
             quasDamage = 1;
 
-        damagedUnit = turn == "player" ? enemy : player;
-        damagedUnit.currentHp = damagedUnit.currentHp - ((quasDamage * exortDamage) + wexDamage);
-
-        if(damagedUnit.currentHp < 0) damagedUnit.currentHp = 0;
-
-        this.drawAttackAnimation(quasDamage, wexDamage, exortDamage);
+        return (quasDamage * exortDamage) + wexDamage;
     },
 
     drawBoard : function(){
