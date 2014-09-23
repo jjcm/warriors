@@ -259,32 +259,100 @@ var elements = {
     //TODO generate AI move 
     generateComputerMoveList : function(){
         bestMoves = [];
-        tmpBoard = elements.board;
         //walk along the left edge
         for(var i = 1; i < 4; i++){
             //for each combination of cards...
+            if(elements.board[0][i] == null){
+                for(j = 0; j < 4; j++){
+                    for(k = j + 1; k < 5; k++){
+                        elements.board[0][i] = elements.playerDeck[j];
+                        elements.board[4][i] = elements.playerDeck[k];
+                        bestMoves.push({
+                            score : elements.scoreTheoreticalPlay(0, i, 4, i),
+                            card1 : j,
+                            card2 : k,
+                            x1 : 0,
+                            y1 : i,
+                            x2 : 4,
+                            y2 : i
+                        });
+                    }
+                }
+                elements.board[0][i] = null;
+                elements.board[4][i] = null;
+            }
+        }
+
+        //walk along the top edge
+        for(var i = 1; i < 4; i++){
+            //for each combination of cards...
+            if(elements.board[i][0] == null){
+                for(j = 0; j < 4; j++){
+                    for(k = j + 1; k < 5; k++){
+                        elements.board[i][0] = elements.playerDeck[j];
+                        elements.board[i][4] = elements.playerDeck[k];
+                        bestMoves.push({
+                            score : elements.scoreTheoreticalPlay(i, 0, i, 4),
+                            card1 : j,
+                            card2 : k,
+                            x1 : i,
+                            y1 : 0,
+                            x2 : i,
+                            y2 : 4
+                        });
+                    }
+                }
+                elements.board[i][0] = null;
+                elements.board[i][4] = null;
+            }
+        }
+        
+        //check the top left corner
+        if(elements.board[0][0] == null){
             for(j = 0; j < 4; j++){
                 for(k = j + 1; k < 5; k++){
-                    tmpBoard[0][i] = elements.playerDeck[j];
-                    tmpBoard[4][i] = elements.playerDeck[k];
+                    elements.board[0][0] = elements.playerDeck[j];
+                    elements.board[4][4] = elements.playerDeck[k];
                     bestMoves.push({
-                        score : elements.scoreTheoreticalPlay(tmpBoard, 0, i, 4, i),
+                        score : elements.scoreTheoreticalPlay(0, 0, 4, 4),
                         card1 : j,
                         card2 : k,
                         x1 : 0,
-                        y1 : i,
+                        y1 : 0,
                         x2 : 4,
-                        y2 : i
+                        y2 : 4
                     });
                 }
             }
-            //tmpBoard[x][i]
 
+            elements.board[0][0] = null;
+            elements.board[4][4] = null;
         }
 
-        console.log(bestMoves);
+        //check the bottom left corner
+        if(elements.board[0][4] == null){
+            for(j = 0; j < 4; j++){
+                for(k = j + 1; k < 5; k++){
+                    elements.board[0][4] = elements.playerDeck[j];
+                    elements.board[4][0] = elements.playerDeck[k];
+                    bestMoves.push({
+                        score : elements.scoreTheoreticalPlay(0, 4, 4, 0),
+                        card1 : j,
+                        card2 : k,
+                        x1 : 0,
+                        y1 : 4,
+                        x2 : 4,
+                        y2 : 0
+                    });
+                }
+            }
+            elements.board[0][4] = null;
+            elements.board[4][0] = null;
+        }
+
+        elements.drawBoard();
         bestMoves.sort(elements.compareMoves);
-        console.log(bestMoves);
+        console.table(bestMoves);
     },
 
     compareMoves : function(a, b){
@@ -295,7 +363,7 @@ var elements = {
         return 0;
     },
 
-    scoreTheoreticalPlay : function(board, x1, y1, x2, y2){
+    scoreTheoreticalPlay : function(x1, y1, x2, y2){
         quasMatches = new Array(3);
         i = 3; while(i--) quasMatches[i] = 0;
 
@@ -306,86 +374,52 @@ var elements = {
         i = 7; while(i--) exortMatches[i] = 0;
         //vertical
         if(x1 == x2){
-            console.log("vertical play");
             for(y = 0; y < 5; y++){
-                quas = board[x1][y].quas - 1;
-                wex = board[x1][y].wex - 1;
-                exort = board[x1][y].exort - 1;
+                quas = elements.board[x1][y].quas - 1;
+                wex = elements.board[x1][y].wex - 1;
+                exort = elements.board[x1][y].exort - 1;
                 quasMatches[quas] = quasMatches[quas] + 1;
                 wexMatches[wex] = wexMatches[wex] + 1;
                 exortMatches[exort] = exortMatches[exort] + 1;
             }
-
-            /*
-            console.log("Quas Score: " + this.scoreQuas(quasMatches));
-            console.log("Wex Score: " + this.scoreWex(wexMatches));
-            console.log("Exort Score: " + this.scoreExort(exortMatches));
-            */
         }
         //horizontal
         else if(y1 == y2){
-            console.log("horizontal play");
             for(x = 0; x < 5; x++){
-                quas = board[x][y1].quas - 1;
-                wex = board[x][y1].wex - 1;
-                exort = board[x][y1].exort - 1;
+                quas = elements.board[x][y1].quas - 1;
+                wex = elements.board[x][y1].wex - 1;
+                exort = elements.board[x][y1].exort - 1;
                 quasMatches[quas] = quasMatches[quas] + 1;
                 wexMatches[wex] = wexMatches[wex] + 1;
                 exortMatches[exort] = exortMatches[exort] + 1;
             }
-
-            /*
-            console.log("Quas Score: " + this.scoreQuas(quasMatches));
-            console.log("Wex Score: " + this.scoreWex(wexMatches));
-            console.log("Exort Score: " + this.scoreExort(exortMatches));
-            */
         }
         //diagonal with a card in the top left corner
         else if(x1 == y1){
-            console.log("diagonal (top left) play");
             for(xy = 0; xy < 5; xy++){
-                quas = board[xy][xy].quas - 1;
-                wex = board[xy][xy].wex - 1;
-                exort = board[xy][xy].exort - 1;
+                quas = elements.board[xy][xy].quas - 1;
+                wex = elements.board[xy][xy].wex - 1;
+                exort = elements.board[xy][xy].exort - 1;
                 quasMatches[quas] = quasMatches[quas] + 1;
                 wexMatches[wex] = wexMatches[wex] + 1;
                 exortMatches[exort] = exortMatches[exort] + 1;
             }
-
-            /*
-            console.log("Quas Score: " + this.scoreQuas(quasMatches));
-            console.log("Wex Score: " + this.scoreWex(wexMatches));
-            console.log("Exort Score: " + this.scoreExort(exortMatches));
-            */
         }
         //diagonal with a card in the bottom left corner
         else if (x1 == y2){
-            console.log("diagonal (top right) play");
             for(xy = 0; xy < 5; xy++){
-                quas = board[xy][4 - xy].quas - 1;
-                wex = board[xy][4 - xy].wex - 1;
-                exort = board[xy][4 - xy].exort - 1;
+                quas = elements.board[xy][4 - xy].quas - 1;
+                wex = elements.board[xy][4 - xy].wex - 1;
+                exort = elements.board[xy][4 - xy].exort - 1;
                 quasMatches[quas] = quasMatches[quas] + 1;
                 wexMatches[wex] = wexMatches[wex] + 1;
                 exortMatches[exort] = exortMatches[exort] + 1;
             }
-
-            /*
-            console.log("Quas Score: " + this.scoreQuas(quasMatches));
-            console.log("Wex Score: " + this.scoreWex(wexMatches));
-            console.log("Exort Score: " + this.scoreExort(exortMatches));
-            */
         }
 
         quasDamage = enemy.weapon["q" + this.scoreQuas(quasMatches)];
         wexDamage = enemy.weapon["w" + this.scoreWex(wexMatches)];
         exortDamage = enemy.weapon["e" + this.scoreExort(exortMatches)];
-
-        /*
-        console.log("Quas Damage: " + quasDamage);
-        console.log("Wex Damage: " + wexDamage);
-        console.log("Exort Damage: " + exortDamage);
-        */
         // the rare instance that there's only 1 q match, the player "drops his sword"
         if (this.scoreQuas(quasMatches) == 1)
             quasDamage = 1;
@@ -610,6 +644,12 @@ var elements = {
 
         turn = playerTick > enemyTick ? "player" : "enemy";
         console.log(turn + "'s turn.");
+        if(turn == "enemy")
+            elements.enemyTurn();
+    },
+
+    enemyTurn : function(){
+        //TODO
     },
 
     playerDeckAction : function(e){
@@ -702,6 +742,7 @@ var elements = {
         elements.dealEnemyCards();
         elements.drawEnemyStats();
         elements.drawPlayerStats();
+        
 
         enemyDeck.addEventListener("click", function(e){
             if(turn == "enemy"){
