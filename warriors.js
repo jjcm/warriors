@@ -256,7 +256,6 @@ var elements = {
         return score;
     },
 
-    //TODO generate AI move 
     generateComputerMoveList : function(){
         bestMoves = [];
         //walk along the left edge
@@ -353,13 +352,14 @@ var elements = {
         elements.drawBoard();
         bestMoves.sort(elements.compareMoves);
         console.table(bestMoves);
+        return bestMoves;
     },
 
     compareMoves : function(a, b){
         if(a.score < b.score)
-            return -1;
-        if(a.score > b.score)
             return 1;
+        if(a.score > b.score)
+            return -1;
         return 0;
     },
 
@@ -650,6 +650,8 @@ var elements = {
 
     enemyTurn : function(){
         //TODO
+        moves = elements.generateComputerMoveList();
+        console.log(moves.length);
     },
 
     playerDeckAction : function(e){
