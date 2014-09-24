@@ -652,6 +652,13 @@ var elements = {
         //TODO
         moves = elements.generateComputerMoveList();
         console.log(moves.length);
+        
+        //without animation
+        card1 = elements.enemyDeck[moves[0].card1];
+        card2 = elements.enemyDeck[moves[0].card2];
+        elements.board[moves[0].x1][moves[0].y1] = card1;
+        elements.board[moves[0].x2][moves[0].y2] = card2;
+        elements.drawBoard();
     },
 
     playerDeckAction : function(e){
@@ -764,7 +771,7 @@ var enemy;
 //on ready
 document.addEventListener( "DOMContentLoaded", function(){
     player = new unit("Player", null, null, 10, 10, 0, weapons.shortSword);
-    enemy = new unit("Dickbutt", null, null, 10, 1, 0, weapons.longSword);
+    enemy = new unit("Dickbutt", null, null, 10, 9, 0, weapons.longSword);
     elements.init();
 
 });
