@@ -221,6 +221,9 @@ var elements = {
         attackWindow.innerHTML = unit.weapon.name + " hit for " + q * e + " damage!!!";
         elements.drawPlayerStats();
         elements.drawEnemyStats();
+        setTimeout(function(){
+            elements.decideTurn();
+        }, 3500);
     },
 
     scoreQuas : function(quas){
@@ -618,23 +621,20 @@ var elements = {
 
                 elements.scorePlay(tempCard1.x, tempCard1.y, tempCard2.x, tempCard2.y);
                 tempCard1 = tempCard2 = null;
-                if(turn == "player"){
-                    elements.dealPlayerCards();
-                    playerTick = playerTick - 100;
-                }
-                else{
-                    elements.dealEnemyCards();
-                    enemyTick = enemyTick - 100;
-                }
 
                 elements.drawBoard();
-                elements.decideTurn();
             });
         }
 
     },
 
     decideTurn : function(){
+        if(turn == "player"){
+            elements.dealPlayerCards();
+        }
+        else{
+            elements.dealEnemyCards();
+        }
         //increment the ATB guage until one of them is over 100
         while(playerTick < 100 && enemyTick < 100){
             playerTick += player.speed;
@@ -643,6 +643,12 @@ var elements = {
 
 
         turn = playerTick > enemyTick ? "player" : "enemy";
+        if(turn == "player"){
+            playerTick = playerTick - 100;
+        }
+        else{
+            enemyTick = enemyTick - 100;
+        }
         console.log(turn + "'s turn.");
         if(turn == "enemy")
             elements.enemyTurn();
@@ -653,12 +659,18 @@ var elements = {
         moves = elements.generateComputerMoveList();
         console.log(moves.length);
         
-        //without animation
-        card1 = elements.enemyDeck[moves[0].card1];
-        card2 = elements.enemyDeck[moves[0].card2];
-        elements.board[moves[0].x1][moves[0].y1] = card1;
-        elements.board[moves[0].x2][moves[0].y2] = card2;
-        elements.drawBoard();
+        elements.animateMoveCard(elements.enemyDeck[moves[0].card1], moves[0].x1, moves[0].y1, function(){
+            //without animation
+            elements.animateMoveCard(elements.enemyDeck[moves[0].card2], moves[0].x2, moves[0].y2, function(){
+                card1 = elements.enemyDeck[moves[0].card1];
+                card2 = elements.enemyDeck[moves[0].card2];
+                elements.board[moves[0].x1][moves[0].y1] = card1;
+                elements.board[moves[0].x2][moves[0].y2] = card2;
+                elements.drawBoard();
+
+                elements.decideTurn();
+            });
+        });
     },
 
     playerDeckAction : function(e){
@@ -729,7 +741,6 @@ var elements = {
         turn = "player";
         playerTick = 0;
         enemyTick = 0;
-        elements.decideTurn();
 
         elements.createBlankBoard();
         elements.dealInitialBoard();
@@ -763,6 +774,8 @@ var elements = {
                 elements.playerDeckAction(e);
             }
         });
+
+        elements.decideTurn();
     }
 };
 
