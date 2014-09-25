@@ -13,6 +13,18 @@ body
   position: relative
   width: $cardWidth * 5
   height: $cardHeight
+  .card
+    top: 0px
+  .y0
+    top: 220px
+  .y1
+    top: 220px + $cardHeight
+  .y2
+    top: 220px + ($cardHeight * 2)
+  .y3
+    top: 220px + ($cardHeight * 3)
+  .y4
+    top: 220px + ($cardHeight * 4)
 
 #enemyStats, #playerStats
   height: 80px
@@ -75,7 +87,7 @@ body
     top: 0px
     left: 0px
   .card
-    z-index: 0
+    z-index: 10
 
 
 
