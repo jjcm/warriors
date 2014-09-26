@@ -668,7 +668,7 @@ var elements = {
                 elements.board[moves[0].x2][moves[0].y2] = card2;
                 elements.drawBoard();
 
-                elements.decideTurn();
+                elements.scorePlay(moves[0].x1, moves[0].y1, moves[0].x2, moves[0].y2);
             });
         });
     },
