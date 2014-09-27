@@ -218,7 +218,7 @@ var elements = {
 
 
         unit = turn == "player" ? player : enemy;
-        attackWindow.innerHTML = unit.weapon.name + " hit for " + q * e + " damage!!!";
+        attackWindow.innerHTML = unit.weapon.name + " hit for " + ((q * e) + w ) + " damage!!!";
         elements.drawPlayerStats();
         elements.drawEnemyStats();
         setTimeout(function(){
@@ -503,6 +503,7 @@ var elements = {
         for(i = 0; i < 5; i++){
             if(this.enemyDeck[i] == null){
                 this.enemyDeck[i] = this.getRandomCard();
+                this.enemyDeck[i].deckPosition = i;
             }
         }
         this.drawEnemyCards();
@@ -668,6 +669,8 @@ var elements = {
                 elements.board[moves[0].x2][moves[0].y2] = card2;
                 elements.drawBoard();
 
+                elements.enemyDeck[moves[0].card1] = null;
+                elements.enemyDeck[moves[0].card2] = null;
                 elements.scorePlay(moves[0].x1, moves[0].y1, moves[0].x2, moves[0].y2);
             });
         });
