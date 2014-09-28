@@ -671,6 +671,7 @@ var elements = {
 
                 elements.enemyDeck[moves[0].card1] = null;
                 elements.enemyDeck[moves[0].card2] = null;
+                elements.drawEnemyCards();
                 elements.scorePlay(moves[0].x1, moves[0].y1, moves[0].x2, moves[0].y2);
             });
         });
