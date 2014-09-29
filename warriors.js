@@ -1,7 +1,4 @@
-var board, playerStats, enemyStats, playerTick, enemyTick, playerDeck, enemyDeck, tempCard1, tempCard2, turn, boardHighlight, attackContainer, attackWindow; 
-var eo;
-
-var debugtmp;
+var board, playerStats, enemyStats, playerTick, enemyTick, playerDeck, enemyDeck, tempCard1, tempCard2, turn, turnNumber, boardHighlight, attackContainer, attackWindow; 
 
 var animationEndEvent = "webkitAnimationEnd";
 
@@ -50,6 +47,11 @@ var elements = {
         return card;
     },
     dealInitialBoard : function(){
+        for(x = 0; x < 5; x++){
+            for(y = 0; y < 5; y++){
+                this.board[x][y] = null;
+            }
+        }
         for(x = 1; x < 4; x++){
             for(y = 1; y < 4; y++){
                 this.board[x][y] = this.getRandomCard();
@@ -653,10 +655,13 @@ var elements = {
         console.log(turn + "'s turn.");
         if(turn == "enemy")
             elements.enemyTurn();
+        turnNumber++;
+        if(turnNumber % 8 == 0)
+            elements.dealInitialBoard();
+
     },
 
     enemyTurn : function(){
-        //TODO
         moves = elements.generateComputerMoveList();
         console.log(moves.length);
         
@@ -743,6 +748,7 @@ var elements = {
 
     init : function(){
         turn = "player";
+        turnNumber = 0;
         playerTick = 0;
         enemyTick = 0;
 
