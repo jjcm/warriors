@@ -656,8 +656,11 @@ var elements = {
         if(turn == "enemy")
             elements.enemyTurn();
         turnNumber++;
-        if(turnNumber % 8 == 0)
+        if(turnNumber % 8 == 0){
             elements.dealInitialBoard();
+            elements.drawBoard();
+        }
+        console.log("TURN NUMBER " + turnNumber);
 
     },
 
@@ -748,7 +751,7 @@ var elements = {
 
     init : function(){
         turn = "player";
-        turnNumber = 0;
+        turnNumber = -1;
         playerTick = 0;
         enemyTick = 0;
 
