@@ -202,7 +202,9 @@ var elements = {
         damagedUnit = turn == "player" ? enemy : player;
         damagedUnit.currentHp = damagedUnit.currentHp - ((quasDamage * exortDamage) + wexDamage);
 
-        if(damagedUnit.currentHp < 0) damagedUnit.currentHp = 0;
+        if(damagedUnit.currentHp < 0){ 
+            damagedUnit.currentHp = 0;
+        }
 
         this.drawAttackAnimation(quasDamage, wexDamage, exortDamage);
     },
@@ -633,9 +635,16 @@ var elements = {
 
     decideTurn : function(){
         if(turn == "player"){
+            if(enemy.currentHp == 0){
+                alert("YOU WIN");
+            }
+
             elements.dealPlayerCards();
         }
         else{
+            if(player.currentHp == 0){
+                alert("YOU LOSE");
+            }
             elements.dealEnemyCards();
         }
         //increment the ATB guage until one of them is over 100
