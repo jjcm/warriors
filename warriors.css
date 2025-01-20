@@ -1,0 +1,655 @@
+body {
+  background-color: #111;
+  margin: 0px;
+}
+
+#container {
+  height: 1080px;
+  background-color: #000;
+  overflow: hidden;
+  position: relative;
+}
+
+#boardContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+#boardContainer > div {
+  flex: 1;
+}
+
+game-hand {
+  margin: 0 auto;
+}
+
+.statColumn {
+  color: #ddd;
+  font-weight: bold;
+  font-size: 22px;
+  font-family: sans-serif;
+  position: relative;
+  padding: 0 24px;
+  max-width: 300px;
+}
+.statColumn table {
+  color: #ddd;
+  border-spacing: 0px;
+  font-weight: bold;
+  font-size: 20px;
+  font-family: sans-serif;
+}
+.statColumn .hp {
+  display: flex;
+  margin: 8px 0;
+}
+.statColumn .weapon .name {
+  font-size: 20px;
+  margin: 8px 0;
+}
+.statColumn .weapon .description {
+  font-size: 16px;
+  font-weight: normal;
+  margin: 8px 0;
+}
+
+.hand .card {
+  top: 0px;
+}
+.hand .y0 {
+  top: -780px;
+}
+.hand .y1 {
+  top: -640px;
+}
+.hand .y2 {
+  top: -500px;
+}
+.hand .y3 {
+  top: -360px;
+}
+.hand .y4 {
+  top: -220px;
+}
+
+#enemyDeck {
+  position: relative;
+  width: 585px;
+  height: 140px;
+}
+
+
+.hand {
+  margin: 0 24px;
+  position: relative;
+  width: 585px;
+  height: 140px;
+}
+.hand .touchTargetoverlay {
+  width: 117px;
+  height: 140px;
+  position: absolute;
+  z-index: 1000;
+  top: 0px;
+  left: 0px;
+}
+.hand .card {
+  z-index: 10;
+}
+
+#boardContainer {
+  position: relative; 
+}
+
+#board {
+  width: 585px;
+  height: 700px;
+  position: relative;
+  margin: 24px;
+  display: none;
+}
+.x0 {
+  left: 0px;
+}
+
+.x1 {
+  left: 117px;
+}
+
+.x2 {
+  left: 234px;
+}
+
+.x3 {
+  left: 351px;
+}
+
+.x4 {
+  left: 468px;
+}
+
+.y0 {
+  top: 0px;
+}
+
+.y1 {
+  top: 140px;
+}
+
+.y2 {
+  top: 280px;
+}
+
+.y3 {
+  top: 420px;
+}
+
+.y4 {
+  top: 560px;
+}
+
+.q1 {
+  background-image: url("images/q1.png");
+}
+
+.q2 {
+  background-image: url("images/q2.png");
+}
+
+.q3 {
+  background-image: url("images/q3.png");
+}
+
+.w1 {
+  background-image: url("images/w1.png");
+}
+
+.w2 {
+  background-image: url("images/w2.png");
+}
+
+.w3 {
+  background-image: url("images/w3.png");
+}
+
+.w4 {
+  background-image: url("images/w4.png");
+}
+
+.w5 {
+  background-image: url("images/w5.png");
+}
+
+.e1 {
+  background-image: url("images/e1.png");
+}
+
+.e2 {
+  background-image: url("images/e2.png");
+}
+
+.e3 {
+  background-image: url("images/e3.png");
+}
+
+.e4 {
+  background-image: url("images/e4.png");
+}
+
+.e5 {
+  background-image: url("images/e5.png");
+}
+
+.e6 {
+  background-image: url("images/e6.png");
+}
+
+.e7 {
+  background-image: url("images/e7.png");
+}
+
+.card {
+  overflow: hidden;
+  background-image: url("images/cardBg.png");
+  background-repeat: no-repeat;
+  color: #fff;
+  width: 113px;
+  height: 136px;
+  position: absolute;
+  box-sizing: border-box;
+}
+
+.card .activeCard {
+  height: 0px;
+  z-index: 100;
+  background-repeat: no-repeat;
+  width: 107px;
+  height: 107px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+.card img {
+  width: 113px;
+  height: 136px;
+}
+
+.card.active::after, .card.highlighted::after {
+  content: '';
+  position: absolute;
+  top: 9px;
+  left: -3px;
+  width: 113px;
+  height: 136px;
+  background-image: url("images/activeRing.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  animation: activeCard 1.5s;
+  animation-iteration-count: infinite;
+}
+
+.cardMove {
+  animation: cardMove 0.5s;
+  transition: all 0.5s cubic-bezier(0.13, 1, 0.67, 1);
+  transform-origin: top left;
+}
+
+#overlay {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+#overlay #attackContainer {
+  display: none;
+  position: absolute;
+  width: 400px;
+  top: 467px;
+  left: 120px;
+  height: 200px;
+  z-index: 2000;
+  background-color: #fff;
+  opacity: 0.9;
+  overflow: hidden;
+  text-align: center;
+}
+#overlay #attackContainer #attack {
+  position: absolute;
+  left: 50%;
+  margin-left: -200px;
+  width: 400px;
+  height: 200px;
+  padding-top: 10px;
+  font-size: 30px;
+  font-family: sans-serif;
+  text-align: center;
+  font-weight: bold;
+  color: #333;
+}
+#overlay #attackContainer.attack {
+  display: block;
+  animation: attackFill 1s;
+}
+#overlay #attackContainer.attackRemove {
+  animation: attackRemove 0.5s;
+}
+#overlay #boardHighlight {
+  display: none;
+  width: 1280px;
+  height: 100px;
+  position: absolute;
+}
+#overlay #boardHighlight .bg {
+  width: 100%;
+  height: 20px;
+  margin-top: 40px;
+  opacity: 0.25;
+  background-color: #fff;
+  animation: bgPulse 1s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+#overlay #boardHighlight .circle {
+  background-image: url("images/overlayCircleBg.png");
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 0px;
+}
+#overlay .diagonalTL .c1, #overlay .diagonalTR .c1 {
+  left: 1016px;
+}
+#overlay .diagonalTL .c2, #overlay .diagonalTR .c2 {
+  left: 834px;
+}
+#overlay .diagonalTL .c3, #overlay .diagonalTR .c3 {
+  left: 651px;
+}
+#overlay .diagonalTL .c4, #overlay .diagonalTR .c4 {
+  left: 469px;
+}
+#overlay .diagonalTL .c5, #overlay .diagonalTR .c5 {
+  left: 287px;
+}
+#overlay #boardHighlight.horizontal {
+  display: block;
+  animation: horizontalFill 0.5s;
+  left: 0px;
+}
+#overlay #boardHighlight.horizontal .c1 {
+  left: 34px;
+}
+#overlay #boardHighlight.horizontal .c2 {
+  left: 151px;
+}
+#overlay #boardHighlight.horizontal .c3 {
+  left: 268px;
+}
+#overlay #boardHighlight.horizontal .c4 {
+  left: 385px;
+}
+#overlay #boardHighlight.horizontal .c5 {
+  left: 502px;
+}
+#overlay .y1 {
+  top: 238px;
+}
+#overlay .y2 {
+  top: 378px;
+}
+#overlay .y3 {
+  top: 518px;
+}
+#overlay .y4 {
+  top: 658px;
+}
+#overlay .y5 {
+  top: 798px;
+}
+#overlay #boardHighlight.vertical {
+  display: block;
+  animation: verticalFill 0.5s;
+  transform: rotate(90deg);
+  top: 574px;
+}
+#overlay #boardHighlight.vertical .c1 {
+  left: 254px;
+}
+#overlay #boardHighlight.vertical .c2 {
+  left: 394px;
+}
+#overlay #boardHighlight.vertical .c3 {
+  left: 534px;
+}
+#overlay #boardHighlight.vertical .c4 {
+  left: 674px;
+}
+#overlay #boardHighlight.vertical .c5 {
+  left: 814px;
+}
+#overlay .x1 {
+  left: -556px;
+}
+#overlay .x2 {
+  left: -439px;
+}
+#overlay .x3 {
+  left: -322px;
+}
+#overlay .x4 {
+  left: -205px;
+}
+#overlay .x5 {
+  left: -88px;
+}
+#overlay #boardHighlight.vertical {
+  display: block;
+}
+#overlay #boardHighlight.diagonalTL {
+  display: block;
+  transform: rotate(50deg);
+  top: 471px;
+  left: -361px;
+  animation: diagonalTLFill 0.5s;
+}
+#overlay #boardHighlight.diagonalTR {
+  display: block;
+  transform: rotate(-50deg);
+  top: 565px;
+  left: -361px;
+  animation: diagonalTRFill 0.5s;
+}
+#overlay #boardHighlight.fadeOut {
+  opacity: 0;
+  animation: fadeOut 0.3s;
+}
+
+@keyframes bgPulse {
+  0% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 0.75;
+  }
+}
+@keyframes horizontalFill {
+  from {
+    opacity: 0;
+    left: -1300px;
+  }
+  to {
+    opacity: 1;
+    left: 0px;
+  }
+}
+@keyframes verticalFill {
+  from {
+    opacity: 0;
+    top: -500px;
+  }
+  to {
+    opacity: 1;
+    top: 574px;
+  }
+}
+@keyframes diagonalTRFill {
+  from {
+    opacity: 0;
+    top: -303px;
+    left: 367px;
+  }
+  to {
+    opacity: 1;
+    top: 565px;
+    left: -361px;
+  }
+}
+@keyframes diagonalTLFill {
+  from {
+    opacity: 0;
+    top: -397px;
+    left: -1089px;
+  }
+  to {
+    opacity: 1;
+    top: 471px;
+    left: -361px;
+  }
+}
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes attackFill {
+  0% {
+    opacity: 0;
+    top: 567px;
+    width: 1px;
+    height: 0px;
+    left: 319px;
+  }
+  70% {
+    opacity: 1;
+    top: 467px;
+    width: 1px;
+    height: 200px;
+    left: 319px;
+  }
+  100% {
+    width: 400px;
+    left: 120px;
+  }
+}
+@keyframes attackRemove {
+  0% {
+    width: 400px;
+    left: 120px;
+  }
+  50% {
+    opacity: 1;
+    top: 467px;
+    width: 1px;
+    height: 200px;
+    left: 319px;
+  }
+  70% {
+    top: 467px;
+    width: 1px;
+    height: 200px;
+    left: 319px;
+  }
+  85% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0;
+    top: 567px;
+    width: 1px;
+    height: 0px;
+    left: 319px;
+  }
+  100% {
+    opacity: 0;
+    top: 567px;
+    width: 1px;
+    height: 0px;
+    left: 319px;
+  }
+}
+@keyframes cardMove {
+  0% {
+    scale: 1;
+    filter: drop-shadow(0px 0px 8px #000);
+  }
+  30% {
+    scale: 1.2;
+    filter: drop-shadow(0px 0px 16px #000);
+  }
+  100% {
+    scale: 0.9;
+    filter: drop-shadow(0px 0px 8px #000);
+  }
+}
+@keyframes activeCard {
+  0% {
+    opacity: 0;
+    transform: scale(0.8, 0.8);
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.6, 1.6);
+  }
+}
+
+
+/* animation for a fire effect that goes through 10 sprite images, on a 1024x768 canvas */
+/* should animate the background-position of the fire image, and have a transition-timing-function of steps(10) */
+
+#cardEffects {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+}
+
+#cardEffects [effect="fire"]::after {
+  background-image: url("images/effects/fire.png");
+}
+
+#cardEffects [effect="selected"]::after {
+  animation: cardEffect .8s steps(1) infinite;
+  background-image: url("images/effects/selected.png");
+}
+
+#cardEffects [effect="selected"] {
+  mix-blend-mode: screen;
+}
+
+card-effect {
+  position: absolute;
+  width: 113px;
+  height: 136px;
+  mix-blend-mode: color-dodge;
+  z-index: 1000;
+}
+
+card-effect::after {
+  content: '';
+  position: absolute;
+  top: -74px;
+  left: -39px;
+  width: 191px;
+  height: 284px; 
+  animation: cardEffect 0.2s steps(1) 1;
+  background-image: url("images/effects/default.png");
+  background-repeat: no-repeat;
+  background-size: 1024px 768px;
+  background-position: -9999px -9999px;
+}
+
+@keyframes cardEffect {
+  0% {
+    background-position: -34px -96px;
+  }
+  10% {
+    background-position: -225px -96px;
+  }
+  20% {
+    background-position: -416px -96px;
+  }
+  30% {
+    background-position: -607px -96px;
+  }
+  40% {
+    background-position: -798px -96px;
+  }
+  50% {
+    background-position: -34px -381px;
+  }
+  60% {
+    background-position: -225px -381px;
+  }
+  70% {
+    background-position: -416px -381px;
+  }
+  80% {
+    background-position: -607px -381px;
+  }
+  90% {
+    background-position: -798px -381px;
+  }
+  100% {
+    background-position: -0px -0px;
+  }
+}
